@@ -59,47 +59,38 @@
     }
   ],
 
+  "startLocationId": "loc_post_office",
+
   "locations": [
-    {
-      "id": "loc_apartment",
-      "name": "Silverův byt",
-      "description": "Malý byt v horním patře. Mlha proniká i sem.",
-      "neighbors": ["loc_street"],
-      "items": ["item_city_map"]
-    },
     {
       "id": "loc_post_office",
       "name": "Pošta",
-      "description": "Centrum doručování. Terminál kontroluje zásilky.",
-      "neighbors": ["loc_street"],
-      "items": ["item_old_letter"],
-      "hackable": true
+      "description": "Malá městská pošta zahalená lehkou mlhou.",
+      "neighbors": ["loc_street", "loc_apartment"]
     },
     {
       "id": "loc_street",
       "name": "Hlavní ulice",
-      "description": "Úzká ulice zahalená mlhou. Lampy blikají.",
-      "neighbors": ["loc_apartment", "loc_post_office", "loc_school", "loc_city_hall"]
+      "description": "Dlouhá ulice mizící v husté mlze.",
+      "neighbors": ["loc_post_office", "loc_square"]
     },
     {
-      "id": "loc_school",
-      "name": "Škola",
-      "description": "Chodby působí nepřirozeně tichým dojmem.",
-      "neighbors": ["loc_street"]
+      "id": "loc_square",
+      "name": "Náměstí",
+      "description": "Centrum města s blikající lampou.",
+      "neighbors": ["loc_street", "loc_council"]
     },
     {
-      "id": "loc_city_hall",
-      "name": "Radnice",
-      "description": "Budova plná kamer a bezpečnostních systémů.",
-      "neighbors": ["loc_street", "loc_security_room"],
-      "restricted": true
+      "id": "loc_council",
+      "name": "Budova Rady",
+      "description": "Chladná budova plná ticha.",
+      "neighbors": ["loc_square"]
     },
     {
-      "id": "loc_security_room",
-      "name": "Bezpečnostní místnost",
-      "description": "Terminály sledují celé město.",
-      "neighbors": ["loc_city_hall"],
-      "hackable": true
+      "id": "loc_apartment",
+      "name": "Silverův byt",
+      "description": "Malý byt plný podivného ticha.",
+      "neighbors": ["loc_post_office"]
     }
   ],
 
