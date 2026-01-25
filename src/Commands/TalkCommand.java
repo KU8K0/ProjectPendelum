@@ -1,4 +1,13 @@
 package Commands;
 
-public class TalkCommand {
+public class TalkCommand implements Command {
+    @Override
+    public void execute() {
+
+    }
+
+    @Override
+    public boolean isExit() {
+        return false;
+    }
 }
