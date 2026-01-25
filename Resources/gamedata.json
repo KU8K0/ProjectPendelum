@@ -1,0 +1,137 @@
+{
+  "items": [
+    {
+      "id": "item_id_card",
+      "name": "Identifikační karta",
+      "type": "KEY",
+      "description": "Pracovní karta Silvera. Otevírá některé dveře ve městě.",
+      "usableIn": ["loc_post_office", "loc_city_hall"]
+    },
+    {
+      "id": "item_hacking_device",
+      "name": "Hacking modul",
+      "type": "TOOL",
+      "description": "Malé zařízení schopné napojit se na terminály a kamery.",
+      "usableIn": ["loc_security_room", "loc_city_hall"]
+    },
+    {
+      "id": "item_old_letter",
+      "name": "Zvláštní dopis",
+      "type": "QUEST",
+      "description": "Dopis bez odesílatele. Obsahuje podivné věty o realitě a pravdě."
+    },
+    {
+      "id": "item_city_map",
+      "name": "Mapa města",
+      "type": "UTILITY",
+      "description": "Zjednodušená mapa. Pomáhá orientaci v husté mlze."
+    }
+  ],
+
+  "characters": [
+    {
+      "id": "player_silver",
+      "name": "Silver",
+      "role": "PLAYER",
+      "homeLocationId": "loc_apartment",
+      "notes": "Mladý doručovatel. Začíná pochybovat o své vlastní podstatě."
+    },
+    {
+      "id": "npc_agnes",
+      "name": "Agnes",
+      "role": "NPC",
+      "homeLocationId": "loc_school",
+      "notes": "Studentka. Ví víc, než říká."
+    },
+    {
+      "id": "npc_supervisor",
+      "name": "Supervisor",
+      "role": "NPC",
+      "homeLocationId": "loc_post_office",
+      "notes": "Silverův nadřízený. Sleduje jeho výkon."
+    },
+    {
+      "id": "npc_security_guard",
+      "name": "Stráž",
+      "role": "ENEMY",
+      "homeLocationId": "loc_city_hall",
+      "notes": "Reaguje na hráče, pokud není ve stealth režimu."
+    }
+  ],
+
+  "locations": [
+    {
+      "id": "loc_apartment",
+      "name": "Silverův byt",
+      "description": "Malý byt v horním patře. Mlha proniká i sem.",
+      "neighbors": ["loc_street"],
+      "items": ["item_city_map"]
+    },
+    {
+      "id": "loc_post_office",
+      "name": "Pošta",
+      "description": "Centrum doručování. Terminál kontroluje zásilky.",
+      "neighbors": ["loc_street"],
+      "items": ["item_old_letter"],
+      "hackable": true
+    },
+    {
+      "id": "loc_street",
+      "name": "Hlavní ulice",
+      "description": "Úzká ulice zahalená mlhou. Lampy blikají.",
+      "neighbors": ["loc_apartment", "loc_post_office", "loc_school", "loc_city_hall"]
+    },
+    {
+      "id": "loc_school",
+      "name": "Škola",
+      "description": "Chodby působí nepřirozeně tichým dojmem.",
+      "neighbors": ["loc_street"]
+    },
+    {
+      "id": "loc_city_hall",
+      "name": "Radnice",
+      "description": "Budova plná kamer a bezpečnostních systémů.",
+      "neighbors": ["loc_street", "loc_security_room"],
+      "restricted": true
+    },
+    {
+      "id": "loc_security_room",
+      "name": "Bezpečnostní místnost",
+      "description": "Terminály sledují celé město.",
+      "neighbors": ["loc_city_hall"],
+      "hackable": true
+    }
+  ],
+
+  "quests": [
+    {
+      "id": "q_deliver_letter",
+      "title": "Doruč zvláštní dopis",
+      "giverCharacterId": "npc_supervisor",
+      "requiredItems": ["item_old_letter"],
+      "targetLocationId": "loc_school",
+      "status": "NOT_STARTED"
+    },
+    {
+      "id": "q_access_city_records",
+      "title": "Získej přístup k městským záznamům",
+      "giverCharacterId": "npc_agnes",
+      "requiredItems": ["item_hacking_device"],
+      "targetLocationId": "loc_security_room",
+      "requiresStealth": true,
+      "status": "LOCKED"
+    }
+  ],
+
+  "systems": {
+    "stealth": {
+      "enabled": true,
+      "description": "Pokud není aktivní stealth, nepřátelé reagují."
+    },
+    "fog": {
+      "enabled": true,
+      "visibilityRange": 1,
+      "description": "Hráč vidí pouze sousední lokace."
+    }
+  }
+}
