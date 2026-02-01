@@ -1,115 +1,121 @@
 {
+  "startLocationId": "loc_apartment",
+
+  "locations": [
+    {
+      "id": "loc_apartment",
+      "name": "Silverův byt",
+      "description": "Malý, strohý byt v rezidenčním bloku A7. Přenosný terminál tiše pulzuje v rohu místnosti.",
+      "neighbors": ["loc_residential"],
+      "items": []
+    },
+    {
+      "id": "loc_residential",
+      "name": "Obytná zóna",
+      "description": "Mlha se drží nízko nad zemí. Kamery sledují každý pohyb. Hlídky Řádu světla procházejí ulicí.",
+      "neighbors": ["loc_apartment", "loc_service", "loc_node"],
+      "items": []
+    },
+    {
+      "id": "loc_service",
+      "name": "Servisní průchod",
+      "description": "Temný technický tunel pod městem. Žádné kamery. Žádní svědci. Jen kapky vody a vzdálené vibrace strojů.",
+      "neighbors": ["loc_residential", "loc_node_secret"],
+      "items": ["item_cloak"]
+    },
+    {
+      "id": "loc_node",
+      "name": "Datový uzel",
+      "description": "Centrální serverová místnost plná studeného světla. Terminály čekají na neoprávněný přístup.",
+      "neighbors": ["loc_residential"],
+      "items": ["item_data_chip"],
+      "requiresItem": "item_access_card",
+      "riskEntry": true
+    },
+    {
+      "id": "loc_node_secret",
+      "name": "Datový uzel",
+      "description": "Vstoupil jsi do Datového uzlu přes servisní šachtu. Alarm zůstává tichý. Systém tě zatím neregistruje.",
+      "neighbors": ["loc_service"],
+      "items": ["item_data_chip"],
+      "riskEntry": false
+    }
+  ],
+
   "items": [
     {
-      "id": "item_id_card",
-      "name": "Identifikační karta",
-      "type": "KEY",
-      "description": "Pracovní karta Silvera. Otevírá některé dveře ve městě.",
-      "usableIn": ["loc_post_office", "loc_city_hall"]
+      "id": "item_cloak",
+      "name": "Ochranný plášť",
+      "description": "Speciální materiál pohlcující světlo. Snižuje šanci odhalení kamerami.",
+      "type": "STEALTH"
     },
     {
-      "id": "item_hacking_device",
-      "name": "Hacking modul",
-      "type": "TOOL",
-      "description": "Malé zařízení schopné napojit se na terminály a kamery.",
-      "usableIn": ["loc_security_room", "loc_city_hall"]
+      "id": "item_access_card",
+      "name": "Přístupová karta",
+      "description": "Autorizuje vstup hlavním vchodem do Datového uzlu.",
+      "type": "KEY"
     },
     {
-      "id": "item_old_letter",
-      "name": "Zvláštní dopis",
-      "type": "QUEST",
-      "description": "Dopis bez odesílatele. Obsahuje podivné věty o realitě a pravdě."
+      "id": "item_data_chip",
+      "name": "Datový čip",
+      "description": "Obsahuje záznam o Silverově konstrukci a jeho pravé identitě.",
+      "type": "QUEST"
     },
     {
-      "id": "item_city_map",
-      "name": "Mapa města",
-      "type": "UTILITY",
-      "description": "Zjednodušená mapa. Pomáhá orientaci v husté mlze."
+      "id": "item_terminal",
+      "name": "Přenosný terminál",
+      "description": "Pracovní nástroj. Umožňuje přístup k méně zabezpečeným systémům.",
+      "type": "TOOL"
     }
   ],
 
   "characters": [
     {
       "id": "player_silver",
-      "name": "Silver",
+      "name": "Silver Nexus",
       "role": "PLAYER",
       "homeLocationId": "loc_apartment",
-      "notes": "Mladý doručovatel. Začíná pochybovat o své vlastní podstatě."
+      "notes": "Městský doručovatel. Začíná pochybovat o vlastní realitě."
     },
     {
       "id": "npc_agnes",
       "name": "Agnes",
       "role": "NPC",
-      "homeLocationId": "loc_school",
-      "notes": "Studentka. Ví víc, než říká."
+      "homeLocationId": "loc_residential",
+      "notes": "Blízká osoba Silvera. Trpí drobnými výpadky paměti."
     },
     {
-      "id": "npc_supervisor",
-      "name": "Supervisor",
-      "role": "NPC",
-      "homeLocationId": "loc_post_office",
-      "notes": "Silverův nadřízený. Sleduje jeho výkon."
-    },
-    {
-      "id": "npc_security_guard",
+      "id": "npc_guard",
       "name": "Stráž",
       "role": "ENEMY",
-      "homeLocationId": "loc_city_hall",
+      "homeLocationId": "loc_residential",
       "notes": "Reaguje na hráče, pokud není ve stealth režimu."
-    }
-  ],
-
-  "startLocationId": "loc_post_office",
-
-  "locations": [
-    {
-      "id": "loc_post_office",
-      "name": "Pošta",
-      "description": "Malá městská pošta zahalená lehkou mlhou.",
-      "neighbors": ["loc_street", "loc_apartment"]
-    },
-    {
-      "id": "loc_street",
-      "name": "Hlavní ulice",
-      "description": "Dlouhá ulice mizící v husté mlze.",
-      "neighbors": ["loc_post_office", "loc_square"]
-    },
-    {
-      "id": "loc_square",
-      "name": "Náměstí",
-      "description": "Centrum města s blikající lampou.",
-      "neighbors": ["loc_street", "loc_council"]
-    },
-    {
-      "id": "loc_council",
-      "name": "Budova Rady",
-      "description": "Chladná budova plná ticha.",
-      "neighbors": ["loc_square"]
-    },
-    {
-      "id": "loc_apartment",
-      "name": "Silverův byt",
-      "description": "Malý byt plný podivného ticha.",
-      "neighbors": ["loc_post_office"]
     }
   ],
 
   "quests": [
     {
-      "id": "q_deliver_letter",
-      "title": "Doruč zvláštní dopis",
-      "giverCharacterId": "npc_supervisor",
-      "requiredItems": ["item_old_letter"],
-      "targetLocationId": "loc_school",
+      "id": "q_find_cloak",
+      "title": "Najdi Ochranný plášť",
+      "description": "Prozkoumej Servisní průchod a získej výhodu proti kamerám.",
+      "requiredItems": [],
+      "targetLocationId": "loc_service",
       "status": "NOT_STARTED"
     },
     {
-      "id": "q_access_city_records",
-      "title": "Získej přístup k městským záznamům",
-      "giverCharacterId": "npc_agnes",
-      "requiredItems": ["item_hacking_device"],
-      "targetLocationId": "loc_security_room",
-      "requiresStealth": true,
+      "id": "q_access_node",
+      "title": "Získej přístup do Datového uzlu",
+      "description": "Vstup hlavním vchodem s kartou nebo najdi tajný vstup přes Servisní průchod.",
+      "requiredItems": ["item_access_card"],
+      "targetLocationId": "loc_node",
+      "status": "LOCKED"
+    },
+    {
+      "id": "q_retrieve_chip",
+      "title": "Získej datový čip",
+      "description": "Hackni terminál v Datovém uzlu a přečti záznam o své identitě.",
+      "requiredItems": ["item_data_chip"],
+      "targetLocationId": "loc_node",
       "status": "LOCKED"
     }
   ],
@@ -117,12 +123,19 @@
   "systems": {
     "stealth": {
       "enabled": true,
-      "description": "Pokud není aktivní stealth, nepřátelé reagují."
+      "cameraActiveIn": ["loc_residential"],
+      "safeZones": ["loc_service", "loc_node_secret"],
+      "baseDetectionChance": 40,
+      "cloakBonus": 30
     },
     "fog": {
       "enabled": true,
-      "visibilityRange": 1,
-      "description": "Hráč vidí pouze sousední lokace."
+      "visibilityRange": 1
+    },
+    "hacking": {
+      "enabled": true,
+      "nodeRequiresHack": true,
+      "maxAttempts": 3
     }
   }
 }
