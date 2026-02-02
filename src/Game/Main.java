@@ -2,6 +2,10 @@ package Game;
 
 import Commands.Command;
 import Commands.CommandParser;
+import Game.CharactersLogic.Player;
+import Game.WorldLogic.Location;
+import Game.WorldLogic.World;
+
 import java.util.Scanner;
 
 public class Main {

@@ -1,7 +1,7 @@
 package Commands;
 
-import Game.Player;
-import Game.Item;
+import Game.CharactersLogic.Player;
+import Game.ItemLogic.Item;
 
 public class TakeCommand implements Command {
 

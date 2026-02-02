@@ -1,6 +1,6 @@
 package Commands;
 
-import Game.Player;
+import Game.CharactersLogic.Player;
 
 public class UseCommand implements Command {
 

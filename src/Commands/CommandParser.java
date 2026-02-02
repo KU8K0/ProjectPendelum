@@ -1,7 +1,7 @@
 package Commands;
 
-import Game.Player;
-import Game.World;
+import Game.CharactersLogic.Player;
+import Game.WorldLogic.World;
 
 public class CommandParser {
 

@@ -1,7 +1,7 @@
 package Commands;
 
-import Game.Player;
-import Game.Location;
+import Game.CharactersLogic.Player;
+import Game.WorldLogic.Location;
 
 public class LookCommand implements Command {
 

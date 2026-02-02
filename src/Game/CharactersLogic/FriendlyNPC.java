@@ -1,4 +1,4 @@
-package Game;
+package Game.CharactersLogic;
 
 public class FriendlyNPC extends NPC {
 }

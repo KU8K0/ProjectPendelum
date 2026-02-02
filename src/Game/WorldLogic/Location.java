@@ -1,4 +1,4 @@
-package Game;
+package Game.WorldLogic;
 
 import java.util.ArrayList;
 import java.util.List;

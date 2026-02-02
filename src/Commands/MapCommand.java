@@ -1,6 +1,6 @@
 package Commands;
 
-import Game.Player;
+import Game.CharactersLogic.Player;
 
 import java.io.BufferedReader;
 import java.io.FileReader;

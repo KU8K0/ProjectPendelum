@@ -1,4 +1,4 @@
-package Game;
+package Game.ItemLogic;
 
 import java.util.ArrayList;
 import java.util.List;

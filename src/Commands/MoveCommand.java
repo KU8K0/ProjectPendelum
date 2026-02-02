@@ -1,8 +1,8 @@
 package Commands;
 
-import Game.Player;
-import Game.World;
-import Game.Location;
+import Game.CharactersLogic.Player;
+import Game.WorldLogic.World;
+import Game.WorldLogic.Location;
 
 import java.text.Normalizer;
 

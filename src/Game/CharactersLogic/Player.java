@@ -1,4 +1,7 @@
-package Game;
+package Game.CharactersLogic;
+
+import Game.ItemLogic.Inventory;
+import Game.WorldLogic.Location;
 
 public class Player {
 
