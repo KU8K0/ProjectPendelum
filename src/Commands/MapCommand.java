@@ -2,6 +2,10 @@ package Commands;
 
 import Game.Player;
 
+import java.io.BufferedReader;
+import java.io.FileReader;
+import java.io.IOException;
+
 public class MapCommand implements Command {
 
     private Player player;
@@ -12,31 +16,17 @@ public class MapCommand implements Command {
 
     @Override
     public void execute() {
-        System.out.println(" ╔══════════════════════════════════════════════════════╗");
-        System.out.println(" ║  SYS.MAP_V.1.04 // ERROR: SIGNAL LOSS...             ║");
-        System.out.println(" ╚══════════════════════════════════════════════════════╝");
-        System.out.println("         ░░▒▒                                 ░░▒▒");
-        System.out.println("         ┌──────────────────────────────┐");
-        System.out.println("         │ [01] SILVERŮV BYT            │");
-        System.out.println("         │ Loc: Res_Block_A7            │");
-        System.out.println("         └──────────────┬───────────────┘");
-        System.out.println("         ░░▒▒          [↕]          ░░▒▒");
-        System.out.println("         ┌──────────────┴───────────────┐");
-        System.out.println("         │ [02] OBYTNÁ ZÓNA             │ <──(Hlídky!)");
-        System.out.println("         │ Status: MLHA/NEBEZPEČÍ       │      ░░▒▒");
-        System.out.println("  ░░▒▒   │ Cam: [ON] / [OFF]??          │        │");
-        System.out.println("    │    └──────────────┬───────────────┘        │");
-        System.out.println("   [↕]                 [↕]                      [↕] HLAVNÍ VSTUP");
-        System.out.println("    │    ┌──────────────┴───────────────┐        │  (Zamčeno/Risk)");
-        System.out.println("    │    │ [04] SERVISNÍ PRŮCHOD        │        │");
-        System.out.println("    │    │ Loot: [Plášť]                │        ▼");
-        System.out.println("    │    │ Vis: 0% (Safe)               │    ┌───────────┐");
-        System.out.println("    │    └──────────────┬───────────────┘    │ [03] UZEL │");
-        System.out.println("    └───────────[↔] TAJNÝ VSTUP ────────────>│ Cíl: DATA │");
-        System.out.println("         ░░▒▒                                └───────────┘");
-        System.out.println("");
-        System.out.println(">_ PING: 4ms...");
-        System.out.println(">_ REALITY_CHECK: FAILED");
+
+        try (BufferedReader reader = new BufferedReader(new FileReader("Resources/map.txt"))) {
+
+            String line;
+            while ((line = reader.readLine()) != null) {
+                System.out.println(line);
+            }
+
+        } catch (IOException e) {
+            System.out.println("MAP_ERROR: Nelze načíst mapu.");
+        }
     }
 
     @Override
