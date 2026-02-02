@@ -1,0 +1,27 @@
+╔══════════════════════════════════════════════╗
+║        SYS.ASSIST_V1.3 // USER: SILVER       ║
+╚══════════════════════════════════════════════╝
+
+[ NAVIGACE ]
+> jdi <nazev lokace>
+> rozhledni
+> mapa
+
+[ INTERAKCE ]
+> vezmi <predmet>
+> pouzij <predmet>
+> mluv <postava>
+
+[ INVENTAR ]
+> batoh
+> inventar
+
+[ SYSTEM ]
+> pomoc
+> konec
+
+----------------------------------------------
+FOG_PROTOCOL: ACTIVE
+SURVEILLANCE_STATUS: UNKNOWN
+REALITY_STABILITY: 82%
+----------------------------------------------
