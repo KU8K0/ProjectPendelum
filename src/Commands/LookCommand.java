@@ -12,19 +12,19 @@ public class LookCommand implements Command {
     }
 
     @Override
-    public void execute() {
-
+    public String execute() {
         Location current = player.getCurrentLocation();
+        StringBuilder sb = new StringBuilder();
 
-        System.out.println("=== ROZHLED ===");
-        System.out.println(current.getName());
-        System.out.println(current.getDescription());
-        System.out.println();
-        System.out.println("Východy:");
+        sb.append("=== ROZHLED ===\n");
+        sb.append(current.getName()).append("\n");
+        sb.append(current.getDescription()).append("\n\n");
+        sb.append("Východy:\n");
 
         for (String id : current.getNeighborIds()) {
-            System.out.println("- " + id);
+            sb.append("- ").append(id).append("\n");
         }
+        return sb.toString();
     }
 
     @Override

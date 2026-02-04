@@ -13,14 +13,12 @@ public class Inventory {
         this.items = new ArrayList<>();
     }
 
-    public boolean addItem(Item item) {
+    public String addItem(Item item) {
         if (items.size() >= capacity) {
-            System.out.println("Tvůj inventář je plný.");
-            return false;
+            return "Tvůj inventář je plný.";
         }
         items.add(item);
-        System.out.println("Přidal jsi do inventáře: " + item.getName());
-        return true;
+        return "Přidal jsi do inventáře: " + item.getName();
     }
 
     public void removeItem(Item item) {
@@ -32,15 +30,16 @@ public class Inventory {
                 .anyMatch(i -> i.getName().equalsIgnoreCase(itemName));
     }
 
-    public void printInventory() {
+    public String getInventoryString() {
         if (items.isEmpty()) {
-            System.out.println("Inventář je prázdný.");
-            return;
+            return "Inventář je prázdný.";
         }
 
-        System.out.println("=== INVENTÁŘ ===");
+        StringBuilder sb = new StringBuilder();
+        sb.append("=== INVENTÁŘ ===\n");
         for (Item item : items) {
-            System.out.println("- " + item.getName());
+            sb.append("- ").append(item.getName()).append("\n");
         }
+        return sb.toString().trim();
     }
 }

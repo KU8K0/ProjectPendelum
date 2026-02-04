@@ -13,9 +13,8 @@ public class TalkCommand implements Command {
     }
 
     @Override
-    public void execute() {
-        System.out.println("Mluvíš s: " + target);
-        System.out.println("Postava zatím nereaguje...");
+    public String execute() {
+        return "Mluvíš s: " + target + "\nPostava zatím nereaguje...";
     }
 
     @Override

@@ -1,7 +1,6 @@
 package Commands;
 
 import Game.CharactersLogic.Player;
-
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
@@ -15,17 +14,18 @@ public class MapCommand implements Command {
     }
 
     @Override
-    public void execute() {
-
+    public String execute() {
+        StringBuilder sb = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader("Resources/map.txt"))) {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
+                sb.append(line).append("\n");
             }
+            return sb.toString();
 
         } catch (IOException e) {
-            System.out.println("MAP_ERROR: Nelze načíst mapu.");
+            return "MAP_ERROR: Nelze načíst mapu.";
         }
     }
 

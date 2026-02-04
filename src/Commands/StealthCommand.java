@@ -2,8 +2,9 @@ package Commands;
 
 public class StealthCommand implements Command {
     @Override
-    public void execute() {
-
+    public String execute() {
+        return "";
+        //TODO Stealth logic (minigame)
     }
 
     @Override

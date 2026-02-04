@@ -11,8 +11,8 @@ public class InventoryCommand implements Command {
     }
 
     @Override
-    public void execute() {
-        player.getInventory().printInventory();
+    public String execute() {
+        return player.getInventory().getInventoryString();
     }
 
     @Override

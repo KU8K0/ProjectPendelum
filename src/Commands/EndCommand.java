@@ -7,20 +7,18 @@ import java.io.IOException;
 public class EndCommand implements Command {
 
     @Override
-    public void execute() {
-
+    public String execute() {
+        StringBuilder sb = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader("Resources/outro.txt"))) {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
-                Thread.sleep(100); // malý efekt postupného vypisu
+                sb.append(line).append("\n");
             }
+            return sb.toString();
 
         } catch (IOException e) {
-            System.out.println("CONNECTION LOST...");
-        } catch (InterruptedException e) {
-            Thread.currentThread().interrupt();
+            return "CONNECTION LOST...";
         }
     }
 

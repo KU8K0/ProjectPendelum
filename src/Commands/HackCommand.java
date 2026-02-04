@@ -1,9 +1,10 @@
 package Commands;
 
-public class HackCommand implements Command{
+public class HackCommand implements Command {
     @Override
-    public void execute() {
-
+    public String execute() {
+        return "";
+        //TODO Hack logic (minigame)
     }
 
     @Override

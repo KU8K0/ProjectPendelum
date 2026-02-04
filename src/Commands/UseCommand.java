@@ -13,12 +13,11 @@ public class UseCommand implements Command {
     }
 
     @Override
-    public void execute() {
-
+    public String execute() {
         if (player.getInventory().hasItem(itemName)) {
-            System.out.println("Použil jsi: " + itemName);
+            return "Použil jsi: " + itemName;
         } else {
-            System.out.println("Tento předmět nemáš.");
+            return "Tento předmět nemáš.";
         }
     }
 

@@ -14,12 +14,10 @@ public class TakeCommand implements Command {
     }
 
     @Override
-    public void execute() {
-
+    public String execute() {
         // Zatím testovací předmět
         Item item = new Item("temp", itemName, "Testovací předmět");
-
-        player.getInventory().addItem(item);
+        return player.getInventory().addItem(item);
     }
 
     @Override

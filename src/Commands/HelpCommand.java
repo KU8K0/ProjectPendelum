@@ -7,17 +7,18 @@ import java.io.IOException;
 public class HelpCommand implements Command {
 
     @Override
-    public void execute() {
-
+    public String execute() {
+        StringBuilder sb = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new FileReader("Resources/help.txt"))) {
 
             String line;
             while ((line = reader.readLine()) != null) {
-                System.out.println(line);
+                sb.append(line).append("\n");
             }
+            return sb.toString();
 
         } catch (IOException e) {
-            System.out.println("HELP_ERROR: Nelze načíst nápovědu.");
+            return "HELP_ERROR: Nelze načíst nápovědu.";
         }
     }
 

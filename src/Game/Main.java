@@ -45,7 +45,11 @@ public class Main {
             Command command = parser.parseCommand(input);
 
             if (command != null) {
-                command.execute();
+                String result = command.execute();
+                if (result != null && !result.isEmpty()) {
+                    System.out.println(result);
+                }
+
                 if (command.isExit()) {
                     running = false;
                 }

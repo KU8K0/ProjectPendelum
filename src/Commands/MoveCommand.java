@@ -19,13 +19,11 @@ public class MoveCommand implements Command {
     }
 
     @Override
-    public void execute() {
-
+    public String execute() {
         Location current = player.getCurrentLocation();
         Location matchedLocation = null;
 
         for (String neighborId : current.getNeighborIds()) {
-
             Location neighbor = world.getLocation(neighborId);
             String normalizedLocationName = normalize(neighbor.getName());
 
@@ -37,10 +35,9 @@ public class MoveCommand implements Command {
 
         if (matchedLocation != null) {
             player.setCurrentLocation(matchedLocation);
-            System.out.println("Přesunul ses do: " + matchedLocation.getName());
-            System.out.println(matchedLocation.getDescription());
+            return "Přesunul ses do: " + matchedLocation.getName() + "\n" + matchedLocation.getDescription();
         } else {
-            System.out.println("Tato lokace není odsud přístupná.");
+            return "Tato lokace není odsud přístupná.";
         }
     }
 
