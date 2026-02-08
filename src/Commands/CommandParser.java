@@ -14,19 +14,18 @@ public class CommandParser {
     }
 
     public Command parseCommand(String input) {
-
         if (input == null || input.trim().isEmpty()) {
             return null;
         }
 
         String[] parts = input.trim().split(" ", 2);
         String commandWord = parts[0].toLowerCase();
+        String argument = (parts.length > 1) ? parts[1].trim() : null;
 
         switch (commandWord) {
-
             case "jdi":
-                if (parts.length > 1) {
-                    return new MoveCommand(player, world, parts[1]);
+                if (argument != null) {
+                    return new MoveCommand(player, world, argument);
                 } else {
                     System.out.println("Kam chceš jít?");
                     return null;
@@ -38,29 +37,44 @@ public class CommandParser {
             case "mapa":
                 return new MapCommand(player);
 
-            case "batoh":
             case "inventar":
                 return new InventoryCommand(player);
 
             case "vezmi":
-                if (parts.length > 1) {
-                    return new TakeCommand(player, parts[1]);
+                if (argument != null) {
+                    return new TakeCommand(player, argument);
                 } else {
                     System.out.println("Co chceš vzít?");
                     return null;
                 }
 
+            case "poloz":
+                if (argument != null) {
+                    return new DropCommand(player, argument);
+                } else {
+                    System.out.println("Co chceš položit?");
+                    return null;
+                }
+
+            case "prozkoumej":
+                if (argument != null) {
+                    return new InspectCommand(player, argument);
+                } else {
+                    System.out.println("Co chceš prozkoumat?");
+                    return null;
+                }
+
             case "mluv":
-                if (parts.length > 1) {
-                    return new TalkCommand(player, parts[1]);
+                if (argument != null) {
+                    return new TalkCommand(player, argument);
                 } else {
                     System.out.println("S kým chceš mluvit?");
                     return null;
                 }
 
             case "pouzij":
-                if (parts.length > 1) {
-                    return new UseCommand(player, parts[1]);
+                if (argument != null) {
+                    return new UseCommand(player, argument);
                 } else {
                     System.out.println("Co chceš použít?");
                     return null;

@@ -2,6 +2,7 @@ package Commands;
 
 import Game.CharactersLogic.Player;
 import Game.ItemLogic.Item;
+import Game.WorldLogic.Location;
 
 public class TakeCommand implements Command {
 
@@ -15,13 +16,25 @@ public class TakeCommand implements Command {
 
     @Override
     public String execute() {
-        // Zatím testovací předmět
-        Item item = new Item("temp", itemName, "Testovací předmět");
-        return player.getInventory().addItem(item);
+        Location location = player.getCurrentLocation();
+
+        // 1. Najdi předmět v lokaci
+        Item item = location.getItem(itemName);
+
+        if (item == null) {
+            return "Předmět '" + itemName + "' tu nevidíš.";
+        }
+
+        if (player.getInventory().isFull()) {
+            return "Tvůj inventář je plný (max 3 předměty). Musíš něco zahodit.";
+        }
+
+        player.getInventory().addItem(item);
+        location.removeItem(item);
+
+        return "Vzal jsi: " + item.getName();
     }
 
     @Override
-    public boolean isExit() {
-        return false;
-    }
+    public boolean isExit() { return false; }
 }

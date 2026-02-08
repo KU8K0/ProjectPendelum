@@ -1,27 +1,28 @@
 ╔══════════════════════════════════════════════╗
-║        SYS.ASSIST_V1.3 // USER: SILVER       ║
+║        SYS.ASSIST_V1.4 // USER: SILVER       ║
 ╚══════════════════════════════════════════════╝
 
 [ NAVIGACE ]
-> jdi <nazev lokace>
-> rozhledni
-> mapa
+> jdi <název>     - Přesun do sousední lokace
+> rozhledni       - Popis okolí a nalezené předměty
+> mapa            - Zobrazení schématu oblasti
+
+[ PŘEDMĚTY ]
+> vezmi <předmět> - Sebere předmět (limit 3 v inventáři)
+> poloz <předmět> - Odloží předmět v aktuální lokaci
+> prozkoumej <předmět> - Detailní analýza věci
+> inventar        - Výpis nesených věcí a kapacity
 
 [ INTERAKCE ]
-> vezmi <predmet>
-> pouzij <predmet>
-> mluv <postava>
+> pouzij <předmět> - Aktivuje funkci předmětu
+> mluv <postava>   - Zahájí dialog
 
-[ INVENTAR ]
-> batoh
-> inventar
-
-[ SYSTEM ]
-> pomoc
-> konec
+[ SYSTÉM ]
+> pomoc           - Tato nápověda
+> konec           - Ukončení simulace
 
 ----------------------------------------------
-FOG_PROTOCOL: ACTIVE
-SURVEILLANCE_STATUS: UNKNOWN
-REALITY_STABILITY: 82%
+INVENTORY_LIMIT: 3 UNITS
+SURVEILLANCE_STATUS: ACTIVE
+FOG_DENSITY: CRITICAL
 ----------------------------------------------

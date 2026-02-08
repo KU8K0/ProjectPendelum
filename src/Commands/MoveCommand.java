@@ -3,7 +3,6 @@ package Commands;
 import Game.CharactersLogic.Player;
 import Game.WorldLogic.World;
 import Game.WorldLogic.Location;
-
 import java.text.Normalizer;
 
 public class MoveCommand implements Command {
@@ -25,19 +24,29 @@ public class MoveCommand implements Command {
 
         for (String neighborId : current.getNeighborIds()) {
             Location neighbor = world.getLocation(neighborId);
-            String normalizedLocationName = normalize(neighbor.getName());
 
-            if (normalizedLocationName.equals(targetInput)) {
-                matchedLocation = neighbor;
-                break;
+            if (neighbor != null) {
+                String normName = normalize(neighbor.getName());
+                String normId = normalize(neighborId);
+
+                if (normName.contains(targetInput) || normId.equals(targetInput)) {
+                    matchedLocation = neighbor;
+                    break;
+                }
             }
         }
 
         if (matchedLocation != null) {
             player.setCurrentLocation(matchedLocation);
-            return "Přesunul ses do: " + matchedLocation.getName() + "\n" + matchedLocation.getDescription();
+
+
+            return "------------------------------------------------\n" +
+                    "Jsi v: " + matchedLocation.getName() + "\n" +
+                    matchedLocation.getDescription() + "\n" +
+                    matchedLocation.getItemsDescription() +
+                    "\n------------------------------------------------";
         } else {
-            return "Tato lokace není odsud přístupná.";
+            return "Tam odsud nemůžeš jít.";
         }
     }
 
@@ -47,6 +56,7 @@ public class MoveCommand implements Command {
     }
 
     private String normalize(String input) {
+        if (input == null) return "";
         String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
         normalized = normalized.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
         return normalized.toLowerCase().trim();

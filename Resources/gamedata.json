@@ -7,38 +7,35 @@
       "name": "Silverův byt",
       "description": "Malý, strohý byt v rezidenčním bloku A7. Přenosný terminál tiše pulzuje v rohu místnosti.",
       "neighbors": ["loc_residential"],
-      "items": []
+      "items": ["item_terminal"]
     },
     {
       "id": "loc_residential",
       "name": "Obytná zóna",
-      "description": "Mlha se drží nízko nad zemí. Kamery sledují každý pohyb. Hlídky Řádu světla procházejí ulicí.",
+      "description": "Mlha se drží nízko nad zemí. Kamery sledují každý pohyb.",
       "neighbors": ["loc_apartment", "loc_service", "loc_node"],
-      "items": []
+      "items": ["item_access_card"]
     },
     {
       "id": "loc_service",
       "name": "Servisní průchod",
-      "description": "Temný technický tunel pod městem. Žádné kamery. Žádní svědci. Jen kapky vody a vzdálené vibrace strojů.",
+      "description": "Temný technický tunel pod městem.",
       "neighbors": ["loc_residential", "loc_node_secret"],
       "items": ["item_cloak"]
     },
     {
       "id": "loc_node",
       "name": "Datový uzel",
-      "description": "Centrální serverová místnost plná studeného světla. Terminály čekají na neoprávněný přístup.",
+      "description": "Centrální serverová místnost plná studeného světla.",
       "neighbors": ["loc_residential"],
-      "items": ["item_data_chip"],
-      "requiresItem": "item_access_card",
-      "riskEntry": true
+      "items": ["item_data_chip"]
     },
     {
       "id": "loc_node_secret",
-      "name": "Datový uzel",
-      "description": "Vstoupil jsi do Datového uzlu přes servisní šachtu. Alarm zůstává tichý. Systém tě zatím neregistruje.",
+      "name": "Datový uzel (tajný vstup)",
+      "description": "Vstoupil jsi do Datového uzlu přes servisní šachtu.",
       "neighbors": ["loc_service"],
-      "items": ["item_data_chip"],
-      "riskEntry": false
+      "items": []
     }
   ],
 
@@ -46,7 +43,7 @@
     {
       "id": "item_cloak",
       "name": "Ochranný plášť",
-      "description": "Speciální materiál pohlcující světlo. Snižuje šanci odhalení kamerami.",
+      "description": "Speciální materiál pohlcující světlo.",
       "type": "STEALTH"
     },
     {
@@ -58,84 +55,14 @@
     {
       "id": "item_data_chip",
       "name": "Datový čip",
-      "description": "Obsahuje záznam o Silverově konstrukci a jeho pravé identitě.",
+      "description": "Obsahuje záznam o Silverově konstrukci.",
       "type": "QUEST"
     },
     {
       "id": "item_terminal",
       "name": "Přenosný terminál",
-      "description": "Pracovní nástroj. Umožňuje přístup k méně zabezpečeným systémům.",
+      "description": "Pracovní nástroj pro přístup k systémům.",
       "type": "TOOL"
     }
-  ],
-
-  "characters": [
-    {
-      "id": "player_silver",
-      "name": "Silver Nexus",
-      "role": "PLAYER",
-      "homeLocationId": "loc_apartment",
-      "notes": "Městský doručovatel. Začíná pochybovat o vlastní realitě."
-    },
-    {
-      "id": "npc_agnes",
-      "name": "Agnes",
-      "role": "NPC",
-      "homeLocationId": "loc_residential",
-      "notes": "Blízká osoba Silvera. Trpí drobnými výpadky paměti."
-    },
-    {
-      "id": "npc_guard",
-      "name": "Stráž",
-      "role": "ENEMY",
-      "homeLocationId": "loc_residential",
-      "notes": "Reaguje na hráče, pokud není ve stealth režimu."
-    }
-  ],
-
-  "quests": [
-    {
-      "id": "q_find_cloak",
-      "title": "Najdi Ochranný plášť",
-      "description": "Prozkoumej Servisní průchod a získej výhodu proti kamerám.",
-      "requiredItems": [],
-      "targetLocationId": "loc_service",
-      "status": "NOT_STARTED"
-    },
-    {
-      "id": "q_access_node",
-      "title": "Získej přístup do Datového uzlu",
-      "description": "Vstup hlavním vchodem s kartou nebo najdi tajný vstup přes Servisní průchod.",
-      "requiredItems": ["item_access_card"],
-      "targetLocationId": "loc_node",
-      "status": "LOCKED"
-    },
-    {
-      "id": "q_retrieve_chip",
-      "title": "Získej datový čip",
-      "description": "Hackni terminál v Datovém uzlu a přečti záznam o své identitě.",
-      "requiredItems": ["item_data_chip"],
-      "targetLocationId": "loc_node",
-      "status": "LOCKED"
-    }
-  ],
-
-  "systems": {
-    "stealth": {
-      "enabled": true,
-      "cameraActiveIn": ["loc_residential"],
-      "safeZones": ["loc_service", "loc_node_secret"],
-      "baseDetectionChance": 40,
-      "cloakBonus": 30
-    },
-    "fog": {
-      "enabled": true,
-      "visibilityRange": 1
-    },
-    "hacking": {
-      "enabled": true,
-      "nodeRequiresHack": true,
-      "maxAttempts": 3
-    }
-  }
+  ]
 }

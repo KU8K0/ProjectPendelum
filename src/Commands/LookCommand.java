@@ -17,13 +17,16 @@ public class LookCommand implements Command {
         StringBuilder sb = new StringBuilder();
 
         sb.append("=== ROZHLED ===\n");
-        sb.append(current.getName()).append("\n");
-        sb.append(current.getDescription()).append("\n\n");
-        sb.append("Východy:\n");
+        sb.append(current.getName().toUpperCase()).append("\n");
+        sb.append(current.getDescription()).append("\n");
 
+        sb.append(current.getItemsDescription());
+
+        sb.append("\nVýchody:\n");
         for (String id : current.getNeighborIds()) {
             sb.append("- ").append(id).append("\n");
         }
+
         return sb.toString();
     }
 
