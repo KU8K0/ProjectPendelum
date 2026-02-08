@@ -1,68 +1,79 @@
 {
   "startLocationId": "loc_apartment",
 
+  "items": [
+    {
+      "id": "item_terminal",
+      "name": "Osobní terminál",
+      "description": "Starý model, ale stále funkční.",
+      "type": "EQUIPMENT"
+    },
+    {
+      "id": "item_access_card",
+      "name": "Přístupová karta",
+      "description": "Modře svítící karta s logem korporace.",
+      "type": "KEY"
+    },
+    {
+      "id": "item_cloak",
+      "name": "Ochranný plášť",
+      "description": "Tlumí tepelnou stopu uživatele.",
+      "type": "EQUIPMENT"
+    }
+  ],
   "locations": [
     {
       "id": "loc_apartment",
       "name": "Silverův byt",
-      "description": "Malý, strohý byt v rezidenčním bloku A7. Přenosný terminál tiše pulzuje v rohu místnosti.",
+      "description": "Malý, strohý byt v rezidenčním bloku A7.",
       "neighbors": ["loc_residential"],
-      "items": ["item_terminal"]
+      "items": ["item_terminal"],
+      "characters": []
     },
     {
       "id": "loc_residential",
       "name": "Obytná zóna",
       "description": "Mlha se drží nízko nad zemí. Kamery sledují každý pohyb.",
       "neighbors": ["loc_apartment", "loc_service", "loc_node"],
-      "items": ["item_access_card"]
+      "items": ["item_access_card"],
+      "characters": ["npc_agnes", "npc_guard"]
     },
     {
       "id": "loc_service",
       "name": "Servisní průchod",
       "description": "Temný technický tunel pod městem.",
       "neighbors": ["loc_residential", "loc_node_secret"],
-      "items": ["item_cloak"]
+      "items": ["item_cloak"],
+      "characters": []
     },
     {
       "id": "loc_node",
       "name": "Datový uzel",
       "description": "Centrální serverová místnost plná studeného světla.",
       "neighbors": ["loc_residential"],
-      "items": ["item_data_chip"]
+      "items": ["item_data_chip"],
+      "characters": []
     },
     {
       "id": "loc_node_secret",
       "name": "Datový uzel (tajný vstup)",
       "description": "Vstoupil jsi do Datového uzlu přes servisní šachtu.",
       "neighbors": ["loc_service"],
-      "items": []
+      "items": [],
+      "characters": []
     }
   ],
 
-  "items": [
+  "characters": [
     {
-      "id": "item_cloak",
-      "name": "Ochranný plášť",
-      "description": "Speciální materiál pohlcující světlo.",
-      "type": "STEALTH"
+      "id": "npc_agnes",
+      "name": "Agnes",
+      "type": "FRIENDLY"
     },
     {
-      "id": "item_access_card",
-      "name": "Přístupová karta",
-      "description": "Autorizuje vstup hlavním vchodem do Datového uzlu.",
-      "type": "KEY"
-    },
-    {
-      "id": "item_data_chip",
-      "name": "Datový čip",
-      "description": "Obsahuje záznam o Silverově konstrukci.",
-      "type": "QUEST"
-    },
-    {
-      "id": "item_terminal",
-      "name": "Přenosný terminál",
-      "description": "Pracovní nástroj pro přístup k systémům.",
-      "type": "TOOL"
+      "id": "npc_guard",
+      "name": "Stráž",
+      "type": "ENEMY"
     }
   ]
 }

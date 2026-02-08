@@ -21,10 +21,11 @@ public class LookCommand implements Command {
         sb.append(current.getDescription()).append("\n");
 
         sb.append(current.getItemsDescription());
+        sb.append(current.getNPCDescription());
 
-        sb.append("\nVýchody:\n");
+        sb.append("\nVÝCHODY:\n");
         for (String id : current.getNeighborIds()) {
-            sb.append("- ").append(id).append("\n");
+            sb.append(" - ").append(id).append("\n");
         }
 
         return sb.toString();

@@ -1,6 +1,8 @@
 package Commands;
 
 import Game.CharactersLogic.Player;
+import Game.CharactersLogic.NPC;
+import Game.WorldLogic.Location;
 
 public class TalkCommand implements Command {
 
@@ -14,7 +16,14 @@ public class TalkCommand implements Command {
 
     @Override
     public String execute() {
-        return "Mluvíš s: " + target + "\nPostava zatím nereaguje...";
+        Location location = player.getCurrentLocation();
+        NPC npc = location.getNPC(target);
+
+        if (npc == null) {
+            return "Nikdo takový tu není.";
+        }
+
+        return npc.talk(location.getId());
     }
 
     @Override

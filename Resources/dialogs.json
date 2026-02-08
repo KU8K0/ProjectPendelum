@@ -1,0 +1,10 @@
+{
+  "npc_agnes": {
+    "default": "Silver… něco není v pořádku. Měla bys být opatrný.",
+    "loc_residential": "Viděla jsem, jak tě sledují kamery. Zkus servisní průchod."
+  },
+  "npc_guard": {
+    "default": "Občane. Identifikace?",
+    "hostile": "ZASTAV! Neoprávněný pohyb. Jsi zadržen."
+  }
+}
