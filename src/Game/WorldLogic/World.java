@@ -1,128 +1,63 @@
 package Game.WorldLogic;
 
 import Game.ItemLogic.Item;
-import Game.CharactersLogic.NPC;
-import Game.CharactersLogic.FriendlyNPC;
-import Game.CharactersLogic.EnemyNPC;
-import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonElement;
-import com.google.gson.JsonObject;
-
-import java.io.FileReader;
-import java.io.Reader;
-import java.util.HashMap;
-import java.util.Map;
+import Game.CharactersLogic.*;
+import com.google.gson.*;
+import java.io.*;
+import java.nio.file.*;
+import java.util.*;
 
 public class World {
-
-    private Map<String, Location> locations;
-    private Map<String, Item> itemRegistry;
+    private Map<String, Location> locations = new HashMap<>();
+    private Map<String, Item> itemRegistry = new HashMap<>();
     private String startLocationId;
-
-    public World() {
-        locations = new HashMap<>();
-        itemRegistry = new HashMap<>();
-    }
+    private String outroContent = "";
 
     public void loadFromJson(String filePath) {
         Gson gson = new Gson();
-
         try (Reader reader = new FileReader(filePath)) {
             JsonObject root = gson.fromJson(reader, JsonObject.class);
+            if (root.has("startLocationId")) startLocationId = root.get("startLocationId").getAsString();
 
-            if (root.has("startLocationId")) {
-                startLocationId = root.get("startLocationId").getAsString();
-            }
-
-            // 1. REGISTR PŘEDMĚTŮ - Přidána kontrola existence
             if (root.has("items")) {
-                JsonArray itemsArray = root.getAsJsonArray("items");
-                for (JsonElement element : itemsArray) {
-                    JsonObject obj = element.getAsJsonObject();
-                    String id = obj.get("id").getAsString();
-                    String name = obj.get("name").getAsString();
-                    String desc = obj.get("description").getAsString();
-                    String type = obj.get("type").getAsString();
-
-                    itemRegistry.put(id, new Item(id, name, desc, type));
+                for (JsonElement e : root.getAsJsonArray("items")) {
+                    JsonObject o = e.getAsJsonObject();
+                    itemRegistry.put(o.get("id").getAsString(), new Item(o.get("id").getAsString(), o.get("name").getAsString(), o.get("description").getAsString(), o.get("type").getAsString()));
                 }
             }
 
-            // 2. REGISTR POSTAV (NPC) - Přidána kontrola existence
             Map<String, NPC> npcRegistry = new HashMap<>();
             if (root.has("characters")) {
-                JsonArray charArray = root.getAsJsonArray("characters");
-                for (JsonElement element : charArray) {
-                    JsonObject obj = element.getAsJsonObject();
-                    String id = obj.get("id").getAsString();
-                    String name = obj.get("name").getAsString();
-                    String type = obj.get("type").getAsString();
-
-                    if ("FRIENDLY".equals(type)) {
-                        npcRegistry.put(id, new FriendlyNPC(id, name));
-                    } else if ("ENEMY".equals(type)) {
-                        npcRegistry.put(id, new EnemyNPC(id, name));
-                    }
+                for (JsonElement e : root.getAsJsonArray("characters")) {
+                    JsonObject o = e.getAsJsonObject();
+                    String id = o.get("id").getAsString();
+                    String name = o.get("name").getAsString();
+                    npcRegistry.put(id, o.get("type").getAsString().equals("FRIENDLY") ? new FriendlyNPC(id, name) : new EnemyNPC(id, name));
                 }
             }
 
-            // 3. NAČÍTÁNÍ LOKACÍ
             if (root.has("locations")) {
-                JsonArray locArray = root.getAsJsonArray("locations");
-                for (JsonElement element : locArray) {
-                    JsonObject obj = element.getAsJsonObject();
-                    String id = obj.get("id").getAsString();
-                    String name = obj.get("name").getAsString();
-                    String desc = obj.get("description").getAsString();
-
-                    Location location = new Location(id, name, desc);
-
-                    // Sousedé
-                    if (obj.has("neighbors")) {
-                        JsonArray neighbors = obj.getAsJsonArray("neighbors");
-                        for (JsonElement n : neighbors) {
-                            location.addNeighbor(n.getAsString());
-                        }
-                    }
-
-                    // Předměty v lokaci
-                    if (obj.has("items")) {
-                        JsonArray locItems = obj.getAsJsonArray("items");
-                        for (JsonElement itemIdElement : locItems) {
-                            String itemId = itemIdElement.getAsString();
-                            if (itemRegistry.containsKey(itemId)) {
-                                location.addItem(itemRegistry.get(itemId));
-                            }
-                        }
-                    }
-
-                    // Postavy v lokaci
-                    if (obj.has("characters")) {
-                        JsonArray locChars = obj.getAsJsonArray("characters");
-                        for (JsonElement charIdElement : locChars) {
-                            String charId = charIdElement.getAsString();
-                            if (npcRegistry.containsKey(charId)) {
-                                location.addNPC(npcRegistry.get(charId));
-                            }
-                        }
-                    }
-
-                    locations.put(id, location);
+                for (JsonElement e : root.getAsJsonArray("locations")) {
+                    JsonObject o = e.getAsJsonObject();
+                    Location loc = new Location(o.get("id").getAsString(), o.get("name").getAsString(), o.get("description").getAsString());
+                    if (o.has("neighbors")) for (JsonElement n : o.getAsJsonArray("neighbors")) loc.addNeighbor(n.getAsString());
+                    if (o.has("items")) for (JsonElement i : o.getAsJsonArray("items")) if (itemRegistry.containsKey(i.getAsString())) loc.addItem(itemRegistry.get(i.getAsString()));
+                    if (o.has("characters")) for (JsonElement c : o.getAsJsonArray("characters")) if (npcRegistry.containsKey(c.getAsString())) loc.addNPC(npcRegistry.get(c.getAsString()));
+                    if (o.has("requiredItem")) loc.setRequiredItemId(o.get("requiredItem").getAsString());
+                    locations.put(loc.getId(), loc);
                 }
             }
 
-        } catch (Exception e) {
-            System.err.println("Chyba při načítání světa: " + e.getMessage());
-            e.printStackTrace();
-        }
+            try {
+                outroContent = Files.readString(Paths.get("Resources/outro.txt"));
+            } catch (IOException ex) {
+                outroContent = "SYSTEM ERROR: OUTRO FILE MISSING.";
+            }
+
+        } catch (Exception e) { e.printStackTrace(); }
     }
 
-    public Location getLocation(String id) {
-        return locations.get(id);
-    }
-
-    public String getStartLocationId() {
-        return startLocationId;
-    }
+    public Location getLocation(String id) { return locations.get(id); }
+    public String getStartLocationId() { return startLocationId; }
+    public String getOutroContent() { return outroContent; }
 }

@@ -74,7 +74,7 @@ public class CommandParser {
 
             case "pouzij":
                 if (argument != null) {
-                    return new UseCommand(player, argument);
+                    return new UseCommand(player, world, argument);
                 } else {
                     System.out.println("Co chceš použít?");
                     return null;

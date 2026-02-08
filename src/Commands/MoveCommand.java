@@ -6,7 +6,6 @@ import Game.WorldLogic.Location;
 import java.text.Normalizer;
 
 public class MoveCommand implements Command {
-
     private Player player;
     private World world;
     private String targetInput;
@@ -20,45 +19,30 @@ public class MoveCommand implements Command {
     @Override
     public String execute() {
         Location current = player.getCurrentLocation();
-        Location matchedLocation = null;
+        Location target = null;
 
         for (String neighborId : current.getNeighborIds()) {
             Location neighbor = world.getLocation(neighborId);
-
-            if (neighbor != null) {
-                String normName = normalize(neighbor.getName());
-                String normId = normalize(neighborId);
-
-                if (normName.contains(targetInput) || normId.equals(targetInput)) {
-                    matchedLocation = neighbor;
-                    break;
-                }
+            if (neighbor != null && (normalize(neighbor.getName()).contains(targetInput) || normalize(neighborId).equals(targetInput))) {
+                target = neighbor;
+                break;
             }
         }
 
-        if (matchedLocation != null) {
-            player.setCurrentLocation(matchedLocation);
-
-
-            return "------------------------------------------------\n" +
-                    "Jsi v: " + matchedLocation.getName() + "\n" +
-                    matchedLocation.getDescription() + "\n" +
-                    matchedLocation.getItemsDescription() +
-                    "\n------------------------------------------------";
-        } else {
-            return "Tam odsud nemůžeš jít.";
+        if (target != null) {
+            if (target.getRequiredItemId() != null && !player.getInventory().hasItem(target.getRequiredItemId())) {
+                return "\n[!] PŘÍSTUP_ODEPŘEN: Vyžadována autorizace (" + target.getRequiredItemId() + ")\n";
+            }
+            player.setCurrentLocation(target);
+            return "\n>> PŘESUN_ÚSPĚŠNÝ...\n" + "LOKACE: " + target.getName() + "\n" + target.getDescription() + "\n" + target.getNPCDescription() + target.getItemsDescription();
         }
-    }
-
-    @Override
-    public boolean isExit() {
-        return false;
+        return ">_ CHYBA: Cíl nenalezen nebo není v dosahu.";
     }
 
     private String normalize(String input) {
         if (input == null) return "";
-        String normalized = Normalizer.normalize(input, Normalizer.Form.NFD);
-        normalized = normalized.replaceAll("\\p{InCombiningDiacriticalMarks}+", "");
-        return normalized.toLowerCase().trim();
+        return Normalizer.normalize(input, Normalizer.Form.NFD).replaceAll("\\p{InCombiningDiacriticalMarks}+", "").toLowerCase().trim();
     }
+
+    @Override public boolean isExit() { return false; }
 }

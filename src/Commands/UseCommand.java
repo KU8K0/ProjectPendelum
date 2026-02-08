@@ -2,52 +2,57 @@ package Commands;
 
 import Game.CharactersLogic.Player;
 import Game.ItemLogic.Item;
+import Game.WorldLogic.World;
 
 public class UseCommand implements Command {
-
     private Player player;
+    private World world;
     private String itemName;
+    private boolean isVictory = false;
 
-    public UseCommand(Player player, String itemName) {
+    public UseCommand(Player player, World world, String itemName) {
         this.player = player;
+        this.world = world;
         this.itemName = itemName;
     }
 
     @Override
     public String execute() {
         Item item = player.getInventory().getItem(itemName);
+        if (item == null) return ">_ ERROR: Předmět [" + itemName + "] nenalezen v inventáři.";
 
-        if (item == null) {
-            return "Tento předmět (" + itemName + ") nemáš v inventáři.";
+        if (item.getId().equals("item_data_chip")) {
+            if (player.getCurrentLocation().getId().contains("loc_node")) {
+                runCinematicOutro();
+                isVictory = true;
+                return "";
+            }
+            return ">_ ERROR: Chybí kompatibilní rozhraní pro vložení datového čipu.";
         }
 
-        switch (item.getId()) {
-            case "item_data_chip":
-                if (player.getCurrentLocation().getId().contains("loc_node")) {
-                    return "Vložil jsi čip do terminálu...\n" +
-                            "Načítání dat...\n" +
-                            "IDENTITA POTVRZENA: SILVER NEXUS - ROBOTICKÁ JEDNOTKA MK-IV.\n" +
-                            "...\n" +
-                            "Pravda byla odhalena. (Napiš 'konec' pro ukončení hry).";
-                } else {
-                    return "Tady nemáš kam čip vložit. Potřebuješ terminál v Datovém uzlu.";
-                }
-
-            case "item_cloak":
-                return "Ochranný plášť funguje automaticky. Pokud ho máš v batohu, kamery tě hůře vidí.";
-
-            case "item_access_card":
-                return "Přístupová karta slouží k otevření hlavních dveří. Použij příkaz 'jdi' směrem k zamčeným dveřím.";
-
-            case "item_terminal":
-                return "Zapnul jsi terminál. 'PING: 4ms... Connection Stable'.\n" +
-                        "Zatím tu nejsou žádné nové zprávy.";
-
-            default:
-                return "Nevíš, jak tento předmět použít.";
+        if (item.getId().equals("item_access_card")) {
+            return ">_ INFO: Karta je aktivní. Stačí se přiblížit k zamčeným dveřím.";
         }
+
+        return ">_ INFO: Předmět " + item.getName() + " nelze v této situaci použít.";
     }
 
-    @Override
-    public boolean isExit() { return false; }
+    private void runCinematicOutro() {
+        String outro = world.getOutroContent();
+        System.out.println("\n>_ NAVAZUJI SPOJENÍ S TERMINÁLEM...");
+        sleep(1000);
+        System.out.println(">_ DEŠIFROVÁNÍ DAT:");
+
+        for (String line : outro.split("\n")) {
+            System.out.println(line);
+            sleep(150);
+        }
+        sleep(2000);
+    }
+
+    private void sleep(int ms) {
+        try { Thread.sleep(ms); } catch (InterruptedException e) { Thread.currentThread().interrupt(); }
+    }
+
+    @Override public boolean isExit() { return isVictory; }
 }
