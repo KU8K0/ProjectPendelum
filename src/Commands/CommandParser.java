@@ -86,6 +86,10 @@ public class CommandParser {
             case "konec":
                 return new EndCommand();
 
+            case "hackuj":
+            case "hack":
+                return new HackCommand(player);
+
             default:
                 return null;
         }

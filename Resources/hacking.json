@@ -1,0 +1,12 @@
+{
+  "ui": {
+    "header": "╔══════════════════════════════════════════════╗\n║  DEŠIFROVACÍ PROTOKOL v2.1 // AUTH_REQUIRED  ║\n╚══════════════════════════════════════════════╝",
+    "prompt": ">> VLOŽTE 3-MÍSTNÝ KÓD: ",
+    "error": "!! KRITICKÁ CHYBA: NEPLATNÝ FORMÁT DAT !!",
+    "win": ">> [PŘÍSTUP POVOLEN] Datový tok stabilizován...\n>> Dekrypce dokončena.",
+    "lose": ">> [PŘÍSTUP ODEPŘEN] IP adresa zaznamenána.\n>> Terminál se uzamyká."
+  },
+  "settings": {
+    "max_attempts": 5
+  }
+}
