@@ -90,6 +90,9 @@ public class CommandParser {
             case "hack":
                 return new HackCommand(player);
 
+            case "stealth":
+                return new StealthCommand(player);
+
             default:
                 return null;
         }
