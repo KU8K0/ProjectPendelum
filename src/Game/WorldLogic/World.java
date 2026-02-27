@@ -2,6 +2,7 @@ package Game.WorldLogic;
 
 import Game.ItemLogic.Item;
 import Game.CharactersLogic.*;
+import Game.Main;
 import com.google.gson.*;
 import java.io.*;
 import java.nio.file.*;
@@ -15,8 +16,8 @@ public class World {
 
     public void loadFromJson(String filePath) {
         Gson gson = new Gson();
-        try (Reader reader = new FileReader(filePath)) {
-            JsonObject root = gson.fromJson(reader, JsonObject.class);
+        try (InputStream inputStream = Main.class.getClassLoader().getResourceAsStream(filePath)) {
+            JsonObject root = gson.fromJson(new InputStreamReader(inputStream), JsonObject.class);
             if (root.has("startLocationId")) startLocationId = root.get("startLocationId").getAsString();
 
             if (root.has("items")) {

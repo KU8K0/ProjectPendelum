@@ -1,10 +1,13 @@
 package Commands;
 
+import Game.Main;
 import com.google.gson.JsonObject;
 import com.google.gson.Gson;
 import Game.CharactersLogic.Player;
 import Game.ItemLogic.Item;
 import java.io.FileReader;
+import java.io.InputStream;
+import java.io.InputStreamReader;
 import java.util.Random;
 import java.util.Scanner;
 
@@ -19,8 +22,8 @@ public class HackCommand implements Command {
     }
 
     private void loadConfig() {
-        try (FileReader reader = new FileReader("Resources/hacking.json")) {
-            this.config = new Gson().fromJson(reader, JsonObject.class);
+        try (InputStream inputStream = Main.class.getClassLoader().getResourceAsStream("hacking.json")) {
+            this.config = new Gson().fromJson(new InputStreamReader(inputStream), JsonObject.class);
         } catch (Exception e) {
             System.err.println("Chyba při načítání hacking.json: " + e.getMessage());
         }

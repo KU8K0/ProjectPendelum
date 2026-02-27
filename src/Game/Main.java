@@ -6,13 +6,21 @@ import Game.CharactersLogic.Player;
 import Game.WorldLogic.Location;
 import Game.WorldLogic.World;
 
+import java.io.FileDescriptor;
+import java.io.FileOutputStream;
+import java.io.PrintStream;
+import java.nio.charset.StandardCharsets;
 import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        World world = new World();
+        System.setOut(new PrintStream(
+                new FileOutputStream(FileDescriptor.out),
+                true,
+                StandardCharsets.UTF_8
+        ));        World world = new World();
 
-        world.loadFromJson("Resources/gamedata.json");
+        world.loadFromJson("gamedata.json");
 
         if (world.getStartLocationId() == null) {
             System.out.println("Chyba: Nepodařilo se načíst svět (zkontroluj cestu k souboru 'gamedata.json').");

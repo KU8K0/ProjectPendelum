@@ -1,18 +1,20 @@
 package Commands;
 
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
+import Game.Main;
+
+import java.io.*;
 
 public class EndCommand implements Command {
 
     @Override
     public String execute() {
         StringBuilder sb = new StringBuilder();
-        try (BufferedReader reader = new BufferedReader(new FileReader("Resources/outro.txt"))) {
+        try (InputStream inputStream = Main.class.getClassLoader().getResourceAsStream("outro.txt");) {
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream);
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
 
             String line;
-            while ((line = reader.readLine()) != null) {
+            while ((line = bufferedReader.readLine()) != null) {
                 sb.append(line).append("\n");
             }
             return sb.toString();
