@@ -16,6 +16,8 @@
 [ INTERAKCE ]
 > pouzij <předmět> - Aktivuje funkci předmětu
 > mluv <postava>   - Zahájí dialog
+> stealth          - Spustí minihru plížení
+> hack             - Spustí minihru hackkování
 
 [ SYSTÉM ]
 > pomoc           - Tato nápověda
