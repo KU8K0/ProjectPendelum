@@ -11,6 +11,7 @@ public class Location {
     private String name;
     private String description;
     private String requiredItemId;
+    private boolean isDangerous;
 
     private List<String> neighborIds;
     private List<Item> items;
@@ -23,6 +24,7 @@ public class Location {
         this.neighborIds = new ArrayList<>();
         this.items = new ArrayList<>();
         this.npcs = new ArrayList<>();
+        this.isDangerous = false;
     }
 
     public void addItem(Item item) { items.add(item); }
@@ -39,15 +41,36 @@ public class Location {
         return null;
     }
 
-    public String getItemsDescription() {
-        if (items.isEmpty()) return "";
-        StringBuilder sb = new StringBuilder("\n>_ DETEKOVANÉ_OBJEKTY:\n");
-        for (Item item : items) sb.append("   [#] ").append(item.getName()).append("\n");
+    public String getFullDescription(boolean isStealthed) {
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n[ ").append(name.toUpperCase()).append(" ]\n");
+        sb.append(description).append("\n");
+
+        if (isDangerous && !isStealthed) {
+            sb.append("\n!!! VAROVÁNÍ: Detekován pohyb. Stráže jsou ve střehu !!!\n");
+            sb.append("(Tip: Použij příkaz 'stealth')\n");
+        } else if (isDangerous && isStealthed) {
+            sb.append("\n>>> REŽIM_PLÍŽENÍ: AKTIVNÍ. Kamery tě neregistrují.\n");
+        }
+
+        if (!npcs.isEmpty()) {
+            sb.append("\n>_ ŽIVÉ_SUBJEKTY:\n");
+            for (NPC npc : npcs) sb.append("   [@] ").append(npc.getName()).append("\n");
+        }
+
+        if (!items.isEmpty()) {
+            sb.append("\n>_ DETEKOVANÉ_OBJEKTY:\n");
+            for (Item item : items) sb.append("   [#] ").append(item.getName()).append("\n");
+        }
+
+        if (id.equals("loc_node")) {
+            sb.append("\n[!] Přístup k terminálu detekován. Příkaz: 'hackuj'\n");
+        }
+
         return sb.toString();
     }
 
     public void addNPC(NPC npc) { npcs.add(npc); }
-
     public NPC getNPC(String name) {
         if (name == null) return null;
         String normalizedInput = normalize(name);
@@ -64,6 +87,17 @@ public class Location {
         return sb.toString();
     }
 
+    public String getItemsDescription() {
+        if (items.isEmpty()) return "";
+        StringBuilder sb = new StringBuilder("\n>_ DETEKOVANÉ_OBJEKTY:\n");
+        for (Item item : items) sb.append("   [#] ").append(item.getName()).append("\n");
+        return sb.toString();
+    }
+
+    public String getDescription() {
+        return description;
+    }
+
     private String normalize(String input) {
         if (input == null) return "";
         return Normalizer.normalize(input, Normalizer.Form.NFD)
@@ -73,9 +107,10 @@ public class Location {
 
     public String getId() { return id; }
     public String getName() { return name; }
-    public String getDescription() { return description; }
     public List<String> getNeighborIds() { return neighborIds; }
     public void addNeighbor(String neighborId) { neighborIds.add(neighborId); }
+    public boolean isDangerous() { return isDangerous; }
+    public void setDangerous(boolean dangerous) { isDangerous = dangerous; }
     public String getRequiredItemId() { return requiredItemId; }
     public void setRequiredItemId(String requiredItemId) { this.requiredItemId = requiredItemId; }
 }

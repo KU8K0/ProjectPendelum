@@ -1,71 +1,18 @@
 package Game;
 
-import Commands.Command;
-import Commands.CommandParser;
-import Game.CharactersLogic.Player;
-import Game.WorldLogic.Location;
 import Game.WorldLogic.World;
-
-import java.io.FileDescriptor;
-import java.io.FileOutputStream;
-import java.io.PrintStream;
-import java.nio.charset.StandardCharsets;
-import java.util.Scanner;
+import Game.CharactersLogic.DialogManager;
 
 public class Main {
     public static void main(String[] args) {
-        System.setOut(new PrintStream(
-                new FileOutputStream(FileDescriptor.out),
-                true,
-                StandardCharsets.UTF_8
-        ));        World world = new World();
+        // 1. Inicializace dat
+        DialogManager.load("dialogs.json");
 
+        World world = new World();
         world.loadFromJson("gamedata.json");
 
-        if (world.getStartLocationId() == null) {
-            System.out.println("Chyba: Nepodařilo se načíst svět (zkontroluj cestu k souboru 'gamedata.json').");
-            return;
-        }
-
-        Player player = new Player();
-        Location startLocation = world.getLocation(world.getStartLocationId());
-
-        if (startLocation == null) {
-            System.out.println("Chyba: Startovní lokace nenalezena.");
-            return;
-        }
-
-        player.setCurrentLocation(startLocation);
-
-        CommandParser parser = new CommandParser(player, world);
-        Scanner scanner = new Scanner(System.in);
-
-        System.out.println("=== PROJECT PENDELUM ===");
-        System.out.println("Jsi v: " + player.getCurrentLocation().getName());
-        System.out.println(player.getCurrentLocation().getDescription());
-        System.out.println("------------------------------------------------");
-
-        boolean running = true;
-        while (running) {
-            System.out.print("\n> ");
-            String input = scanner.nextLine();
-
-            Command command = parser.parseCommand(input);
-
-            if (command != null) {
-                String result = command.execute();
-                if (result != null && !result.isEmpty()) {
-                    System.out.println(result);
-                }
-
-                if (command.isExit()) {
-                    running = false;
-                }
-            } else {
-                System.out.println("Neznámý příkaz. Napiš 'pomoc' pro seznam příkazů.");
-            }
-        }
-
-        scanner.close();
+        // 2. Start motoru
+        GameEngine engine = new GameEngine(world);
+        engine.start();
     }
 }

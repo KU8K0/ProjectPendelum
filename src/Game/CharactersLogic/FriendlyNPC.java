@@ -1,7 +1,5 @@
 package Game.CharactersLogic;
 
-import Game.CharactersLogic.DialogManager;
-
 public class FriendlyNPC extends NPC {
 
     public FriendlyNPC(String id, String name) {
@@ -10,6 +8,14 @@ public class FriendlyNPC extends NPC {
 
     @Override
     public String talk(String locationId) {
-        return DialogManager.getDialog(id, locationId);
+
+        String context = "default";
+
+        if (id.equals("npc_agnes")) {
+            context = locationId.equals("loc_residential") ? "no_cloak" : "default";
+        }
+
+        String text = DialogManager.getDialog(id, context);
+        return formatDialog(name, text);
     }
 }

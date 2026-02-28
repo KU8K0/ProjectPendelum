@@ -32,7 +32,7 @@ public class CommandParser {
                 }
 
             case "rozhledni":
-                return new LookCommand(player);
+                return new LookCommand(player, world);
 
             case "mapa":
                 return new MapCommand(player);
@@ -86,7 +86,6 @@ public class CommandParser {
             case "konec":
                 return new EndCommand();
 
-            case "hackuj":
             case "hack":
                 return new HackCommand(player);
 

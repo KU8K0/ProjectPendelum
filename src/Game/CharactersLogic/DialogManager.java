@@ -1,20 +1,28 @@
 package Game.CharactersLogic;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import java.io.FileReader;
-import java.util.HashMap;
-import java.util.Map;
+import com.google.gson.*;
+import Game.Main;
+
+import java.io.InputStream;
+import java.io.InputStreamReader;
+import java.nio.charset.StandardCharsets;
+import java.util.*;
 
 public class DialogManager {
 
-    private static Map<String, JsonObject> dialogs = new HashMap<>();
+    private static final Map<String, JsonObject> dialogs = new HashMap<>();
+    private static final Random random = new Random();
 
-    static {
-        try {
+    public static void load(String fileName) {
+
+        try (InputStream is = Main.class.getClassLoader().getResourceAsStream(fileName)) {
+
+            if (is == null)
+                throw new RuntimeException("Soubor nenalezen: " + fileName);
+
             Gson gson = new Gson();
             JsonObject root = gson.fromJson(
-                    new FileReader("Resources/dialogs.json"),
+                    new InputStreamReader(is, StandardCharsets.UTF_8),
                     JsonObject.class
             );
 
@@ -28,18 +36,20 @@ public class DialogManager {
     }
 
     public static String getDialog(String npcId, String context) {
-        JsonObject npcDialogs = dialogs.get(npcId);
 
+        JsonObject npcDialogs = dialogs.get(npcId);
         if (npcDialogs == null) return "...";
 
-        // Pokud máme specifický dialog pro danou lokaci/kontext
-        if (npcDialogs.has(context))
-            return npcDialogs.get(context).getAsString();
+        if (!npcDialogs.has(context))
+            context = "default";
 
-        // Jinak použijeme defaultní dialog
-        if (npcDialogs.has("default"))
-            return npcDialogs.get("default").getAsString();
+        JsonElement element = npcDialogs.get(context);
 
-        return "...";
+        if (element.isJsonArray()) {
+            JsonArray arr = element.getAsJsonArray();
+            return arr.get(random.nextInt(arr.size())).getAsString();
+        }
+
+        return element.getAsString();
     }
 }

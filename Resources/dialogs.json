@@ -1,10 +1,26 @@
 {
-  "npc_agnes": {
-    "default": "Silver… něco není v pořádku. Měla bys být opatrný.",
-    "loc_residential": "Viděla jsem, jak tě sledují kamery. Zkus servisní průchod."
-  },
   "npc_guard": {
-    "default": "Občane. Identifikace?",
-    "hostile": "ZASTAV! Neoprávněný pohyb. Jsi zadržen."
+    "default": [
+      "Stůjte. Tohle není místo pro náhodné návštěvníky.",
+      "Identifikujte se. A mluvte jasně."
+    ],
+    "found": [
+      "Tak přece jen. Myslel jste si, že vás nevidíme?",
+      "Poplach! Pohyb v zakázané zóně."
+    ],
+    "talk_after_found": [
+      "Znovu vy? Tentokrát bez hloupostí.",
+      "Držte se dál od problémů."
+    ]
+  },
+  "npc_agnes": {
+    "no_cloak": [
+      "Tady fouká víc než jen vítr. Některé věci se hodí mít na sobě.",
+      "Ne každý může projít bez povšimnutí… ale někdo by mohl."
+    ],
+    "with_cloak": [
+      "Ano… tohle by mohlo fungovat.",
+      "Teď už zapadnete lépe. Jen nezapomeňte dýchat."
+    ]
   }
 }

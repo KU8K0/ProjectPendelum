@@ -35,8 +35,8 @@
       "name": "Obytná zóna",
       "description": "Mlha se drží nízko nad zemí. Kamery sledují každý pohyb.",
       "neighbors": ["loc_apartment", "loc_service", "loc_node"],
-      "items": ["item_access_card"],
-      "characters": ["npc_agnes", "npc_guard"]
+      "characters": ["npc_agnes", "npc_guard"],
+      "isDangerous": true
     },
     {
       "id": "loc_service",
@@ -51,8 +51,9 @@
       "name": "Datový uzel",
       "description": "Centrální serverová místnost plná studeného světla.",
       "neighbors": ["loc_residential"],
-      "items": ["item_data_chip"],
-      "characters": []
+      "items": [],
+      "characters": [],
+      "requiredItem": "item_access_card"
     },
     {
       "id": "loc_node_secret",

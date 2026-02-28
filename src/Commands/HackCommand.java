@@ -5,7 +5,7 @@ import com.google.gson.JsonObject;
 import com.google.gson.Gson;
 import Game.CharactersLogic.Player;
 import Game.ItemLogic.Item;
-import java.io.FileReader;
+
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Random;
@@ -31,11 +31,13 @@ public class HackCommand implements Command {
 
     @Override
     public String execute() {
-        boolean hasTerminal = player.getCurrentLocation().getItem("item_terminal") != null;
-        boolean isAtNode = player.getCurrentLocation().getId().contains("loc_node");
 
-        if (!hasTerminal && !isAtNode) {
-            return ">_ CHYBA: V dosahu není žádný aktivní terminál ani síťový uzel.";
+        if (!player.getInventory().hasItem("item_terminal")) {
+            return ">_ ERROR: Nemáš přenosný terminál.";
+        }
+
+        if (!player.getCurrentLocation().getId().equals("loc_node")) {
+            return ">_ ERROR: V této lokaci není síťový uzel.";
         }
 
         JsonObject ui = config.getAsJsonObject("ui");
@@ -50,6 +52,7 @@ public class HackCommand implements Command {
         System.out.println("----------------------------------------------");
 
         while (attempts > 0) {
+
             System.out.print(ui.get("prompt").getAsString());
             String guess = sc.nextLine().trim();
 
@@ -63,6 +66,7 @@ public class HackCommand implements Command {
             }
 
             attempts--;
+
             System.out.println(getFeedback(guess, targetPin) + " | ZBÝVÁ POKUSŮ: " + attempts);
         }
 
@@ -70,33 +74,47 @@ public class HackCommand implements Command {
     }
 
     private String getFeedback(String guess, String target) {
+
         StringBuilder fb = new StringBuilder("ANALÝZA: [ ");
+
         for (int i = 0; i < 3; i++) {
+
             if (guess.charAt(i) == target.charAt(i)) {
-                fb.append("+ "); // Správně
-            } else if (target.contains(String.valueOf(guess.charAt(i)))) {
-                fb.append("- "); // Existuje, ale jinde
-            } else {
-                fb.append("X "); // Neexistuje
+                fb.append("+ ");
+            }
+            else if (target.contains(String.valueOf(guess.charAt(i)))) {
+                fb.append("- ");
+            }
+            else {
+                fb.append("X ");
             }
         }
+
         fb.append("]");
+
         return fb.toString();
     }
 
     private String handleVictory(String winMessage) {
-        if (player.getCurrentLocation().getId().contains("loc_node")) {
-            Item chip = new Item("item_data_chip", "Datový čip", "Obsahuje dešifrovaná data projektu Pendelum.", "QUEST");
-            if (player.getInventory().addItem(chip)) {
-                return "\n" + winMessage + "\n>_ ZÍSKÁNA DATA: [item_data_chip] (uloženo do inventáře)";
-            } else {
-                player.getCurrentLocation().addItem(chip);
-                return "\n" + winMessage + "\n>_ VAROVÁNÍ: Inventář plný. Čip zůstal v lokaci.";
-            }
+
+        Item chip = new Item(
+                "item_data_chip",
+                "Datový čip",
+                "Obsahuje dešifrovaná data projektu Pendelum.",
+                "QUEST"
+        );
+
+        if (player.getInventory().addItem(chip)) {
+            return "\n" + winMessage + "\n>_ ZÍSKÁNA DATA: [item_data_chip]";
         }
-        return "\n" + winMessage + "\n>_ SYSTÉM: Žádná užitečná data v tomto uzlu nenalezena.";
+        else {
+            player.getCurrentLocation().addItem(chip);
+            return "\n" + winMessage + "\n>_ Inventář plný. Čip zůstal v lokaci.";
+        }
     }
 
     @Override
-    public boolean isExit() { return false; }
+    public boolean isExit() {
+        return false;
+    }
 }

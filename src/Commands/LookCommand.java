@@ -2,13 +2,16 @@ package Commands;
 
 import Game.CharactersLogic.Player;
 import Game.WorldLogic.Location;
+import Game.WorldLogic.World;
 
 public class LookCommand implements Command {
 
+    private World world;
     private Player player;
 
-    public LookCommand(Player player) {
+    public LookCommand(Player player, World world) {
         this.player = player;
+        this.world = world;
     }
 
     @Override
@@ -25,7 +28,13 @@ public class LookCommand implements Command {
 
         sb.append("\nVÝCHODY:\n");
         for (String id : current.getNeighborIds()) {
-            sb.append(" - ").append(id).append("\n");
+            Location neighbor = player.getCurrentLocation() != null
+                    ? world.getLocation(id)
+                    : null;
+
+            if (neighbor != null) {
+                sb.append(" - ").append(neighbor.getName()).append("\n");
+            }
         }
 
         return sb.toString();
